@@ -1,0 +1,60 @@
+---
+layout: runbook
+title: '#4471 · what the merged reports show'
+owner: Alex Ting
+status: draft
+reviewed: 2026-10-30
+signature: 'Alex Ting (alextingworld), with Claude'
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const issues = {};
+</script>
+
+[#4471](/kb/incidents/4471) is marked known: one bug, one fix queued. Read report by report, it
+holds three problems. One fix will not close it.
+
+<Callout kind="warn">
+Not one issue. Each problem below has its own ticket, and its own fix.
+</Callout>
+
+## What #4471 holds
+
+<ProblemTable ticket={4471} {issues} />
+
+Every report is counted once: the ticket export repeats some reports where its pages overlap.
+
+## How to tell them apart
+
+- **Parser.** The date has its day and month swapped, whatever channel it came in by. The
+  tenant writes day first; the shared parser reads month first. Fixing the parser fixes these.
+- **booking-v3 hint.** Also a swap, but only from tenants on `booking-v3`, and only through its
+  form. The form's hint asks for `MM/DD/YYYY`, people follow it, and the form reads their date
+  day first. Fixing the parser does not fix these: the hint is the bug.
+- **One-day move.** Not a swap. The day moves by one (Tuesday shows as Monday), or two people
+  in different time zones get different days for one meeting. The desk had already noted these
+  reports; the cause table files them under the parser by tenant, so they had no ticket.
+
+## Why one ticket hid three
+
+[Decision 0001](/kb/decisions/0001-dedupe-by-subject) merges reports whose subject lines match.
+Reporters write the same few subjects for all three problems, so subject matching put them in
+one place. Intake's tag does not help either: it guesses from the reporter's browser, and the
+cause depends on the tenant and the form.
+
+The table on the incident page shows the same split by cause, with the one-day moves left
+inside the parser row:
+
+<CauseTable ticket={4471} />
+
+## What changes for the desk
+
+- Close #4471 only when all three tickets are closed.
+- When a report's dates are not a swap, check the time zone before merging it.
+
+<RenderStamp {signature} />
