@@ -33,7 +33,7 @@
         <td title={g.tenants.join(', ')}>{g.tenants.length}</td>
         <td class="what">{channels(g.channels)}</td>
         <td class="what">{g.firstSeen} → {g.lastSeen}</td>
-        <td>{#if issues[g.problem]}<a href={issues[g.problem]}>{issues[g.problem].replace(/^.*\/issues\//, '#')}</a>{:else}none yet{/if}</td>
+        <td>{#if issues[g.problem]}<a href={issues[g.problem]}>{issues[g.problem].replace(/^.*\/issues\//, 'issue #')}</a>{:else}none yet{/if}</td>
       </tr>
     {/each}
   </tbody>

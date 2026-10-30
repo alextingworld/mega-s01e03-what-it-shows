@@ -13,7 +13,8 @@ signature: 'Alex Ting (alextingworld), with Claude'
   import Callout from '#lib/kb/Callout.svelte';
   import RenderStamp from '#lib/kb/RenderStamp.svelte';
 
-  const issues = {};
+  const repo = 'https://github.com/alextingworld/mega-s01e03-what-it-shows/issues';
+  const issues = { parser: `${repo}/1`, hint: `${repo}/2`, shift: `${repo}/3` };
 </script>
 
 [#4471](/kb/incidents/4471) is marked known: one bug, one fix queued. Read report by report, it
